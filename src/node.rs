@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-#[derive(Eq, Hash, PartialEq, Clone, Debug)]
+#[derive(Eq, Hash, PartialEq, Clone, Debug, Copy)]
 pub struct Pos {
     x: isize,
     y: isize
@@ -24,11 +24,11 @@ impl Pos {
 
 #[derive(Debug)]
 pub struct Node {
-    pos: Pos,
-    left: Option<Pos>,
-    right: Option<Pos>,
-    up: Option<Pos>,
-    down: Option<Pos>,
+    pub pos: Pos,
+    pub left: Option<Pos>,
+    pub right: Option<Pos>,
+    pub up: Option<Pos>,
+    pub down: Option<Pos>,
 }
 
 impl Node {
@@ -56,7 +56,6 @@ impl Node {
         let mut count = 0;
 
         for pos in adj_pos {
-            println!("{:#?}, {}", pos, count);
             match board_hashmap.get(&pos) {
                 Some(v) => {
                     if v == &true {

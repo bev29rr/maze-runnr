@@ -1,6 +1,8 @@
 mod node;
+mod search;
 
 use node::{Pos, Node};
+use search::{Bfs};
 use std::{collections::HashMap, fs::read_to_string, os::raw};
 
 fn get_raw_board(filename: &str) -> (Vec<Vec<bool>>, HashMap<Pos, bool>) {
@@ -65,11 +67,22 @@ fn to_graph(raw_board: Vec<Vec<bool>>, raw_board_hash: HashMap<Pos, bool>) -> (V
 
 fn main() {
     println!("Generating bool board...");
-    let (raw_board, raw_board_hash) = get_raw_board("input/test.txt");
-    println!("{:#?}", raw_board);
+    let (raw_board, raw_board_hash) = get_raw_board("input/maze.txt");
     println!("Done!");
+    
     println!("Generating graph...");
     let (graph, graph_hash) = to_graph(raw_board, raw_board_hash);
     println!("Done!");
-    println!("{:#?}", graph);
+    
+    let mut bfs_search = Bfs::new(
+        graph, 
+        Pos::new(1,1),
+        Pos::new(255,255)
+    );
+    println!("Performing Bfs Search...");
+    let run_status = bfs_search.run(&graph_hash);
+    println!("Success!");
+    if let Some(pos_vec) = run_status {
+        println!("{:?}", pos_vec);
+    }
 }
